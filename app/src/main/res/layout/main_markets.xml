@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="markets.indicators.IndicatorActivity">
+
+    <LinearLayout
+        android:id="@+id/mainMarketsIndicatorPane"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/mainMarketsBtnPane"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtMainMarketName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/MarketNameStyle"
+             />
+
+        <ListView
+            android:id="@+id/mainMarketsListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/mainMarketsBtnPane"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/lightGray"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/btnSaveMainMarketPrices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/rounded_button"
+            android:tag="btnPreview"
+            android:text="PREVIEW"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

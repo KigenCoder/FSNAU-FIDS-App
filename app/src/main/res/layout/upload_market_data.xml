@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:id="@+id/txtUploadMarketName"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/dark_green"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_margin="20dp"
+        android:textStyle="bold" />
+
+
+    <!--Year -->
+    <EditText
+        android:id="@+id/txtYear"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:cursorVisible="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="Year"
+        android:layout_margin="20dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:background="@drawable/rounded_text"
+        android:inputType="number" />
+
+
+    <!-- Month -->
+    <Spinner
+        android:id="@+id/monthSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:background="@drawable/rounded_text"
+        android:textAlignment="center"
+        android:entries="@array/months"
+        android:layout_margin="20dp"
+        android:tag="monthSpinnerTag"/>
+
+    <!-- Week -->
+
+    <Spinner
+        android:id="@+id/weeksSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:background="@drawable/rounded_text"
+        android:entries="@array/weeks"
+        android:layout_margin="20dp"
+        android:textAlignment="center"
+        android:tag="weekSpinnerTag"/>
+
+
+    <Button
+        android:id="@+id/btnUploadMarketData"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/rounded_button"
+        android:tag="btnUploadToServer"
+        android:text="UPLOAD DATA"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+</LinearLayout>

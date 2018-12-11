@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="auth.LoginActivity">
+
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_margin="20dp"
+        android:src="@drawable/logo"
+        android:contentDescription="TODO" />
+
+
+
+
+    <EditText
+        android:id="@+id/txtEmail"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="60dp"
+        android:background="@drawable/rounded_text"
+        android:layout_below="@id/logoImage"
+        android:textAlignment="center"
+        android:hint="Email"/>
+
+
+
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="60dp"
+        android:background="@drawable/rounded_text"
+        android:layout_below="@+id/txtEmail"
+        android:hint="Password"
+        android:textAlignment="center"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/txtPassword"
+        android:background="@drawable/rounded_button"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:onClick="btnLogin"
+        android:text="LOGIN"
+
+        />
+
+
+</RelativeLayout>
