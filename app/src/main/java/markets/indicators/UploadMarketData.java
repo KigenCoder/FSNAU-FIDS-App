@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.telephony.mbms.StreamingServiceInfo;
+import android.text.method.DateTimeKeyListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +37,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +47,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import auth.LoginActivity;
 import database.DatabaseHandler;
 import fsnau.org.R;
 import model.IndicatorPrice;
@@ -58,6 +63,7 @@ public class UploadMarketData extends Fragment implements View.OnClickListener {
     String month_id;
     String week;
     Button uploadButton;
+    ProgressBar uploadProgressBar;
 
 
     DatabaseHandler databaseHandler;
@@ -68,6 +74,8 @@ public class UploadMarketData extends Fragment implements View.OnClickListener {
         super.onCreateView(inflater, container, savedInstanceState);
         View uploadView = inflater.inflate(R.layout.upload_market_data, container, false);
         databaseHandler = DatabaseHandler.getInstance(getContext());
+        uploadProgressBar = uploadView.findViewById(R.id.uploadProgressBar);
+        uploadProgressBar.setVisibility(View.GONE);
         init(uploadView);
         return uploadView;
     }
@@ -77,9 +85,52 @@ public class UploadMarketData extends Fragment implements View.OnClickListener {
         String buttonTag = view.getTag().toString();
 
         if (buttonTag.equalsIgnoreCase("btnUploadToServer")) {
-            prepUpload();
+            if (tokenHasExpired()) {
+                try {
+                    databaseHandler.deleteUserData();
+                    //Redirect user to login page
+                    Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(loginIntent);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            } else {
+                prepUpload();
+            }
+
 
         }
+    }
+
+
+    private boolean tokenHasExpired() {
+
+        boolean expired = false;
+        try {
+
+            //2020-02-07 11:53:01
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String expiresAt = databaseHandler.getUserData().getExpiresAt();
+
+            Date expiryDate = dateFormat.parse(expiresAt);
+            String currentDateString = dateFormat.format(new Date());
+            Date currentDate =  dateFormat.parse(currentDateString);
+
+            //System.out.println(currentDate);
+
+            if (currentDate.getTime() > expiryDate.getTime()) {
+                expired = true;
+            }
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+        return expired;
+
     }
 
     private void prepUpload() {
@@ -122,10 +173,12 @@ public class UploadMarketData extends Fragment implements View.OnClickListener {
     }
 
     private void upload(JSONObject uploadJSON) {
+        uploadProgressBar.setVisibility(View.VISIBLE);
 
         String upload_url = Global.getServerUrl() + "/api/auth/upload";
         final String requestBody = uploadJSON.toString();
         try {
+
             StringRequest stringRequest = new StringRequest(Request.Method.POST, upload_url,
                     new Response.Listener<String>() {
                         @Override
@@ -234,6 +287,8 @@ public class UploadMarketData extends Fragment implements View.OnClickListener {
 
         } catch (Exception exception) {
             exception.printStackTrace();
+        } finally {
+            uploadProgressBar.setVisibility(View.INVISIBLE);
         }
 
 
@@ -261,6 +316,8 @@ public class UploadMarketData extends Fragment implements View.OnClickListener {
 
         } catch (Exception exception) {
             exception.printStackTrace();
+        } finally {
+            uploadProgressBar.setVisibility(View.INVISIBLE);
         }
 
 
@@ -284,7 +341,8 @@ public class UploadMarketData extends Fragment implements View.OnClickListener {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) { }
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         });
 
         weekSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

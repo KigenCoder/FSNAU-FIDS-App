@@ -58,6 +58,7 @@ public class SLIMSContainerFragment extends Fragment {
     private void initViewPager() {
         IndicatorPageAdapter pageAdapter = new IndicatorPageAdapter(getActivity().getSupportFragmentManager());
         viewPager.setAdapter(pageAdapter);
+        pagerTabStrip.setTabIndicatorColor(Color.BLACK);
         //pagerTabStrip.setDrawFullUnderline(false);
         //pagerTabStrip.setTextColor(Color.WHITE);
         //pagerTabStrip.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);

@@ -30,11 +30,10 @@ public class IndicatorActivity extends AppCompatActivity implements OnSelectedLi
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
-         addFragment();
+        addFragment();
     }
 
 
@@ -47,20 +46,20 @@ public class IndicatorActivity extends AppCompatActivity implements OnSelectedLi
 
     private void savePriceList() {
 
-        try{
-            ArrayList<IndicatorPrice>  savedPriceList = databaseHandler.getPriceList();
-            if(savedPriceList.size()<1){
+        try {
+            ArrayList<IndicatorPrice> savedPriceList = databaseHandler.getPriceList();
+            if (savedPriceList.size() < 1) {
                 //Save Price list
                 ArrayList<IndicatorPrice> priceList = PriceList.priceList();
 
-                for(IndicatorPrice price : priceList ){
+                for (IndicatorPrice price : priceList) {
 
                     databaseHandler.addIndicatorPrice(price);
                     //Log.d(price.getIndicatorName(), ": " + price.getIndicatorPrice());
                 }
             }
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -68,26 +67,28 @@ public class IndicatorActivity extends AppCompatActivity implements OnSelectedLi
     }
 
     private void addFragment() {
-        int marketTypeId = Integer.parseInt(databaseHandler.getUserData().getMarketTypeId());
+        try {
+            int marketTypeId = Integer.parseInt(databaseHandler.getUserData().getMarketTypeId());
 
-        Fragment fragment;
+            Fragment fragment;
 
-        if (marketTypeId == 1) {
-            //Main market
-            fragment = new MainMarkets();
-        } else {
-            //SLIM market
-            fragment = new SLIMSContainerFragment();
+            if (marketTypeId == 1) {
+                //Main market
+                fragment = new MainMarkets();
+            } else {
+                //SLIM market
+                fragment = new SLIMSContainerFragment();
+            }
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.mainContainer, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.mainContainer, fragment)
-                .addToBackStack(null)
-                .commit();
+
     }
-
-
-
-
 }

@@ -3,10 +3,14 @@ package auth;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -34,10 +38,14 @@ import model.UserData;
 import utilities.Global;
 import utilities.VolleySingleton;
 
+import static android.graphics.PorterDuff.Mode.DARKEN;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText txtEmail;
     private EditText txtPassword;
+    private Button btnLogin;
+    private ProgressBar loginProgressBar;
     private DatabaseHandler databaseHandler;
 
 
@@ -47,7 +55,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_activity);
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
+        btnLogin = findViewById(R.id.btnLogin);
         databaseHandler = DatabaseHandler.getInstance(this);
+        loginProgressBar = findViewById(R.id.loginProgressBar);
+        loginProgressBar.setVisibility(View.INVISIBLE);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    loginUser();
+            }
+        });
     }
 
     @Override
@@ -66,15 +83,22 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    protected void btnLogin(View view) {
-        final String userEmail = txtEmail.getText().toString().trim();
-        final String userPassword = txtPassword.getText().toString().trim();
+    protected void loginUser() {
+        try {
+            String userEmail = txtEmail.getText().toString().trim();
 
-        if (userEmail.length() < 1 || userPassword.length() < 1) {
-            Toast.makeText(getApplicationContext(), "Enter Email & Password", Toast.LENGTH_LONG).show();
-        } else {
+            String userPassword = txtPassword.getText().toString().trim();
 
-            authenticateUser(userEmail, userPassword);
+            if (userEmail.length() < 1 || userPassword.length() < 1) {
+
+                Toast.makeText(getApplicationContext(), "Enter Email & Password", Toast.LENGTH_LONG).show();
+            } else {
+
+                authenticateUser(userEmail, userPassword);
+            }
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
 
 
@@ -87,11 +111,13 @@ public class LoginActivity extends AppCompatActivity {
         try {
             userCredentials.put("email", email);
             userCredentials.put("password", password);
-        } catch (JSONException exception) {
+        }
+        catch (JSONException exception) {
             Log.e("Auth JSON exception: ", exception.getLocalizedMessage());
         }
 
         if (userCredentials != null) {
+            loginProgressBar.setVisibility(View.VISIBLE);
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, api_url, userCredentials, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -113,7 +139,6 @@ public class LoginActivity extends AppCompatActivity {
                             databaseHandler.deleteUserData();
                         }
 
-
                         //Save new user credentials in the database
                         UserData userDataModel = new UserData(
                                 userID,
@@ -132,7 +157,9 @@ public class LoginActivity extends AppCompatActivity {
                     } catch (JSONException exception) {
                         Log.e("Auth JSON Parse error", exception.getLocalizedMessage());
                         exception.printStackTrace();
+
                     } finally {
+                         loginProgressBar.setVisibility(View.INVISIBLE);
                         changeScreen();
                     }
 
@@ -166,6 +193,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
+                    }finally{
+                        loginProgressBar.setVisibility(View.INVISIBLE);
                     }
 
 
@@ -178,9 +207,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void changeScreen() {
-        // Bring up Market data form(s) - if user has been authenticated
-        Intent indicatorActivityIntent = new Intent(LoginActivity.this, IndicatorActivity.class);
-        startActivity(indicatorActivityIntent);
+        try {
+            // Bring up Market data form(s) - if user has been authenticated
+            Intent indicatorActivityIntent = new Intent(LoginActivity.this, IndicatorActivity.class);
+            startActivity(indicatorActivityIntent);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+
     }
 }
 

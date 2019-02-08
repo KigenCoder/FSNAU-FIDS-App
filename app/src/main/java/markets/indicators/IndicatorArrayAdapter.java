@@ -5,6 +5,8 @@ import android.content.Context;
 import database.DatabaseHandler;
 import fsnau.org.R;
 import model.Indicator;
+import model.IndicatorPrice;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -88,7 +91,7 @@ public class IndicatorArrayAdapter extends BaseAdapter {
         int type = getItemViewType(position);
 
 
-        ViewHolder viewHolder = null;
+        final ViewHolder viewHolder;
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -157,6 +160,8 @@ public class IndicatorArrayAdapter extends BaseAdapter {
                         }
                     }
                 });
+
+
 
 
 

@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/txtUploadMarketName"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:layout_margin="20dp"
         android:background="@color/dark_green"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:layout_margin="20dp"
         android:textStyle="bold" />
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/uploadProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
 
 
     <!--Year -->
@@ -22,17 +28,17 @@
         android:id="@+id/txtYear"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/rounded_text"
         android:cursorVisible="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:hint="Year"
-        android:layout_margin="20dp"
+        android:inputType="number"
+        android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:background="@drawable/rounded_text"
-        android:inputType="number" />
+        android:textStyle="bold" />
 
 
     <!-- Month -->
@@ -40,29 +46,28 @@
         android:id="@+id/monthSpinner"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/rounded_text"
+        android:entries="@array/months"
+        android:tag="monthSpinnerTag"
+        android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:background="@drawable/rounded_text"
-        android:textAlignment="center"
-        android:entries="@array/months"
-        android:layout_margin="20dp"
-        android:tag="monthSpinnerTag"/>
+        android:textStyle="bold" />
 
     <!-- Week -->
-
     <Spinner
         android:id="@+id/weeksSpinner"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:layout_margin="20dp"
         android:background="@drawable/rounded_text"
         android:entries="@array/weeks"
-        android:layout_margin="20dp"
+        android:tag="weekSpinnerTag"
         android:textAlignment="center"
-        android:tag="weekSpinnerTag"/>
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 
     <Button

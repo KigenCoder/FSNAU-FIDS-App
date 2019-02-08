@@ -16,9 +16,6 @@
             android:layout_gravity="top"
             android:padding="10dp"
             android:theme="@style/PagerTabStrip"
-
-
-
             />
 
     </androidx.viewpager.widget.ViewPager>

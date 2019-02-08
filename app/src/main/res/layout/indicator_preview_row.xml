@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:textAlignment="center"
+        android:textAlignment="viewStart"
         />
 
 
